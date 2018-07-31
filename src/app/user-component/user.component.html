@@ -1,0 +1,50 @@
+<div>
+  <mat-card>
+      <span class="col-md-12" *ngIf="userId"><h3 class="col-md-11">Edit User Details : {{siblingMessage.name}}</h3>(Message from sibling component) </span>
+      <span  class="col-md-12" *ngIf="!userId"><h3 class="col-md-11">{{parentMessage}}</h3>(Message from parent component) </span>
+    <form name="form" (ngSubmit)="onSubmit()" #f2="ngForm" novalidate>
+      <div class="form-group">
+        <label>User Name</label>
+        <input type="text" name="userName" pattern="^[a-zA-Z\s]*$" [(ngModel)]="user.name" #userName="ngModel"
+          id="userName" required minlength="3" maxlength="30">
+        <div *ngIf="userName.errors && submitted" class="alert alert-danger ">
+          <div [hidden]="!userName.errors.required">User Name is required</div>
+          <div [hidden]="!userName.errors.minlength">User Name must be atleast 3 characters long</div>
+          <div [hidden]="!userName.hasError('pattern')">Only alphabets, spaces are allowed</div>
+        </div>
+        <br />
+      </div>
+      <div class="form-group">
+        <label>Address</label>
+        <input type="text" name="userAddress" [(ngModel)]="user.address" #userAddress="ngModel" id="userAddress"
+          required minlength="3" maxlength="30">
+        <div *ngIf="userAddress.errors && submitted" class="alert alert-danger">
+          <div [hidden]="!userAddress.errors.required">Address is required</div>
+        </div>
+        <br />
+      </div>
+      <div class="form-group ">
+        <label>Contact  +91</label>
+        <input type="text" name="userContact" [(ngModel)]="user.contact" #userContact="ngModel" id="userContact" minlength="10" maxlength="10" pattern="^[0-9]*$"
+          required>
+        <div *ngIf="userContact.errors && submitted" class="alert alert-danger">
+          <div [hidden]="!userContact.errors.required">Contact is required</div>
+          <div [hidden]="!userContact.hasError('pattern')">Only numbers are allowed</div>
+
+        </div>
+        <br />
+      </div>
+      <br />
+      <button mat-raised-button color="accent">
+              <a routerLink="/">Back
+              </a>
+      </button>
+      <button *ngIf="!userId" type="submit" (click)="addUser(f2.form.valid)" mat-raised-button color="accent">Add New User</button>
+      <button *ngIf="userId" type="submit" (click)="editUser(f2.form.valid)" mat-raised-button color="accent">Save Updated Data</button>
+    </form>
+    <div *ngIf="success">
+        Successfully Added Data.
+    </div>
+  </mat-card>
+
+</div>
